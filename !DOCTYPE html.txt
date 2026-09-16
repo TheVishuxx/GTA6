@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA VI - State of Leonida Project</title>
+    <style>
+        :root {
+            --pink: #ff007f;
+            --cyan: #00f0ff;
+            --dark-overlay: rgba(10, 7, 18, 0.85);
+            --card-bg: rgba(20, 22, 34, 0.9);
+            --neon-glow: 0 0 15px rgba(255, 0, 127, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* FONDO TOTAL CON TU IMAGEN SELECCIONADA */
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(rgba(10, 5, 20, 0.5), rgba(10, 5, 20, 0.8)), 
+                        url('https://erweima.ai') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            attachment: fixed;
+        }
+
+        /* BARRA SUPERIOR ESTILO STATE OF LEONIDA MAP */
+        header {
+            background: rgba(8, 5, 12, 0.95); /* Fondo sólido oscuro para aislar y resaltar el logo */
+            border-bottom: 2px solid var(--pink);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), var(--neon-glow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container img {
+            height: 60px; /* Tamaño optimizado del logo en la esquina */
+            width: auto;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); /* Súper contraste para que se vea impecable */
+            transition: transform 0.3s;
+        }
+
+        .logo-container img:hover {
+            transform: scale(1.05);
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        nav a:hover {
+            color: var(--cyan);
+            background: rgba(0, 240, 255, 0.08);
+            border-color: rgba(0, 240, 255, 0.3);
+            text-shadow: 0 0 10px var(--cyan);
+        }
+
+        /* CAPA DE BIENVENIDA */
+        .welcome-banner {
+            text-align: center;
+            padding: 100px 20px 40px 20px;
+        }
+
+        .welcome-banner h1 {
+            font-size: 3.5em;
+            text-transform: uppercase;
+            font-weight: 900;
+            text-shadow: 0 0 20px #000, 0 0 10px var(--pink);
+            letter-spacing: 2px;
+        }
+
+        .welcome-banner p {
+            color: var(--cyan);
+            font-size: 1.3em;
+            font-weight: bold;
+            text-shadow: 0 2px 8px #000;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* CONTENEDOR GENERAL DE BLOQUES DE INFORMACIÓN */
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            scroll-margin-top: 110px; /* Evita que la barra tape los títulos */
+        }
+
+        section h2 {
+            font-size: 2.2em;
+            color: #fff;
+            margin-bottom: 25px;
+            border-left: 6px solid var(--pink);
+            padding-left: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* VISUALIZADOR DE MAPAS INTERACTIVO */
+        .map-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .map-wrapper img {
+            max-width: 100%;
+            max-height: 550px;
+            border-radius: 12px;
+            border: 2px solid var(--cyan);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .map-wrapper img:hover {
+            transform: scale(1.01);
+        }
+
+        .map-legend {
+            font-size: 0.95em;
+            color: var(--pink);
+            font-weight: 600;
+            background: rgba(0,0,0,0.4);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        /* ESTRUCTURA GRID DE DATOS (MECÁNICAS Y CONSOLAS) */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .data-card {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+        }
+
+        .data-card:hover {
+            border-color: var(--cyan);
+            background: rgba(0, 0, 0, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .data-card h3 {
+            color: var(--cyan);
+            margin-bottom: 12px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+        }
+
+        .data-card p {
+            color: #d1d5db;
+            font-size: 0.98em;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background-color: rgba(5, 3, 10, 0.95);
+            color: #777;
+            font-size: 0.85em;
+            border-top: 1px solid rgba(255, 0, 127, 0.2);
+            margin-top: 80px;
+        }
+
+        /* OPTIMIZACIÓN RESPONSIVA */
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; padding: 15px; }
+            nav { flex-wrap: wrap; justify-content: center; gap: 8px; }
+            .welcome-banner h1 { font-size: 2.3em; }
+            section { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV BAR SUPERIOR PROFESIONAL -->
+    <header>
+        <div class="logo-container">
+            <!-- Logo oficial de GTA VI -->
+            <img src="https://wikimedia.org" alt="GTA VI Logo">
+        </div>
+        <nav>
+            <a href="#mapa">Supuesto Mapa</a>
+            <a href="#mecanicas">Mecánicas</a>
+            <a href="#consolas">Consolas</a>
+        </nav>
+    </header>
+
+    <!-- INTRO DE LA WEB -->
+    <div class="welcome-banner">
+        <h1>Leonida Database</h1>
+        <p>Inspirado en el proyecto cartográfico de la comunidad</p>
+    </div>
+
+    <!-- CONTENEDOR DE SECCIONES -->
+    <div class="main-container">
+        
+        <!-- SECCIÓN 1: SUPUESTO MAPA -->
+        <section id="mapa">
+            <h2>🗺️ El Supuesto Mapa de los Fans</h2>
+            <p style="color: #cbd5e1; margin-bottom: 20px;">Siguiendo los pasos de plataformas comunitarias, este plano recopila coordenadas matemáticas calculadas a partir del primer tráiler y las patentes de desarrollo de Rockstar Games.</p>
+            
+            <div class="map-wrapper">
+                <!-- Imagen real del mapa del proyecto de fans de Leonida -->
+                <img src="https://wikimedia.org" onerror="this.src='https://igrandtheftauto.com'" alt="Mapa del Leonida Mapping Project hecho por fans">
+                <span class="map-legend">Reconstrucción cartográfica del Estado de Leonida v14</span>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: MECÁNICAS -->
+        <section id="mecanicas">
+            <h2>🎮 Mecánicas Avanzadas Confirmadas</h2>
+            <div class="info-grid">
+                <div class="data-card">
+                    <h3>Interacción con NPCs</h3>
+                    <p>Un sistema de diálogos contextuales enfocado en interactuar, interrogar, o intimidar de manera orgánica a cualquier transeúnte o animal del ecosistema.</p>
+                </div>
+                <div class="data-card">
+                    <h3>Física e Inventario Real</h3>
+                    <p>Las armas largas y bultos de asaltos ocuparán espacio físico en los hombros o manos de Jason y Lucía. Se reduce el almacenamiento invisible.</p>
+                </div>
+                <div class="data-card">
+                    <h3>Vínculo Dinámico</h3>
+                    <p>Las decisiones del usuario alteran el nivel de confianza mutua, desbloqueando opciones tácticas en los atracos cooperativos.</p>
+                </div>
+                <div class="data-card">
+                    <h3>Evolución Policial</h3>
+                    <p>El uso de coberturas faciales o el cambio urgente de vehículo determinará la velocidad con la que las patrullas te identificarán en el perímetro.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: CONSOLAS -->
+        <section id="consolas">
+            <h2>🕹️ Consolas y Ecosistemas Disponibles</h2>
+            <div class="info-grid">
+                <div class="data-card">
+                    <h3>PlayStation 5</h3>
